@@ -163,14 +163,60 @@
 
     <div class="modal-overlay" id="loginModal">
         <div class="login-box">
-            <span class="close-btn" onclick="toggleLogin()">&times;</span>
-            <h2>Login Pelanggan</h2>
-            <form action="#">
-                <input type="email" placeholder="Email Anda" required>
-                <input type="password" placeholder="Password" required>
-                <button type="submit">MASUK</button>
-            </form>
-        </div>
+    <span class="close-btn" onclick="toggleLogin()">&times;</span>
+    <h2>Login Pelanggan</h2>
+    <form id="loginForm">
+        <input type="email" id="loginEmail" placeholder="Email Anda" required>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <button type="submit">MASUK</button>
+    </form>
+</div>
+<script>
+    // Fungsi untuk buka/tutup modal
+    function toggleLogin() {
+        const modal = document.getElementById('loginModal');
+        modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+    }
+
+    // Logika Penanganan Login
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Mencegah halaman refresh
+
+        // Ambil data dari input
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+
+        // Simulasi Validasi (Contoh: email harus berisi @)
+        if (email && password.length >= 5) {
+            
+            // 1. Tampilkan pesan sukses
+            alert('Selamat Datang, ' + email + '! Anda berhasil login.');
+
+            // 2. Ubah tombol Login di Navbar menjadi Nama/Logout
+            const loginBtnNav = document.querySelector('.login-btn-nav');
+            loginBtnNav.innerHTML = '<i class="fas fa-user"></i> Profile';
+            loginBtnNav.style.background = '#27ae60'; // Ubah warna jadi hijau
+            loginBtnNav.onclick = function() {
+                const out = confirm("Apakah Anda ingin logout?");
+                if(out) location.reload(); // Refresh untuk simulasi logout
+            };
+
+            // 3. Tutup modal
+            toggleLogin();
+
+        } else {
+            alert('Password minimal 5 karakter!');
+        }
+    });
+
+    // Menutup modal jika user klik di luar kotak login
+    window.onclick = function(event) {
+        const modal = document.getElementById('loginModal');
+        if (event.target == modal) {
+            toggleLogin();
+        }
+    }
+</script>
     </div>
 
     <header id="home" class="hero">
